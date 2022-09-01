@@ -32,10 +32,13 @@ class my2DPlot:
         self.p[-1].set_color(colorName)
 
     def logy(self):
+        # set the yscale to log
         plt.yscale('log')
 
     def logx(self):
+        # set the xscale to log
         plt.xscale('log')
 
     def savefig(self, fileName):
+        # save the figure to the specified filename
         plt.savefig(fileName)
