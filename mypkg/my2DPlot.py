@@ -23,6 +23,7 @@ class my2DPlot:
         plt.ylabel(y)
 
     def addPlot(self, f):
+        # add a plot on top of the existing plot
         x = self.p[0].get_data()[0]
         y = f(x)
         self.p = plt.plot(x, y)
