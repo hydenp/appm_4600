@@ -10,6 +10,7 @@ class my2DPlot:
         self.p = plt.plot(x, y)
 
     def show(self):
+        # method to show the plot
         plt.show()
 
     def dotted(self):
