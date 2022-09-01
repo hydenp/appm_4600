@@ -18,6 +18,7 @@ class my2DPlot:
         self.p[0].set_linestyle('dotted')
 
     def labels(self, x, y):
+        # add axiis labels
         plt.xlabel(x)
         plt.ylabel(y)
 
