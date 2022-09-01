@@ -14,6 +14,7 @@ class my2DPlot:
         plt.show()
 
     def dotted(self):
+        # make the first plot's line dotted
         self.p[0].set_linestyle('dotted')
 
     def labels(self, x, y):
