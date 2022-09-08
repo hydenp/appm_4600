@@ -1,17 +1,17 @@
+import numpy as np
+
 import mypkg
 
 if __name__ == '__main__':
-    # specify function
-    f = lambda x: (x ** 2) * (x - 1)
-
-    # instantiate Iteration1D object using bisection
-    # this should set self.f = f, self.method = 'bisection'
-    # and other all attributes, like self.tol = None
-    find = mypkg.Iteration1D(f, 'bisection')
+    # instantiate Iteration1D object using bisection method
+    find = mypkg.Iteration1D(lambda x: (x ** 2) * (x - 1), 'bisection')
 
     # set tol and Nmax
     find.tol = 1e-6
     find.Nmax = 100
+
+    ########################################################
+    # Using bisection
 
     # PART A
     find.a = 0.5
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     find.method = 'fixedpt'
 
     # PART A
-    find.f = lambda x: x ** (3/2)
+    find.f = lambda x: np.power(x, 2/3)
 
     find.p0 = 1.2
     find.root()
@@ -49,16 +49,15 @@ if __name__ == '__main__':
 
     find.p0 = 0.1
     find.root()
-    print(f'When f(x)=x^3/2 guess 1.2: fixed point root {find.pstar}')
+    print(f'When f(x)=x^3/2 guess 0.1: fixed point root {find.pstar}')
 
     # PART B
-    find.f = lambda x: x ** (2/3)
-    find.p0 = 1.2
+    find.f = lambda x: np.power(x, 1.5)
 
+    find.p0 = 1.2
     find.root()
     print(f'When f(x)=x^2/3 guess 1.2: fixed point root {find.pstar}')
-    # set initial guess
+
     find.p0 = 0.1
-    # find the root
     find.root()
     print(f'When f(x)=x^2/3 guess 0.1: fixed point root {find.pstar}')

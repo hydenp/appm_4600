@@ -27,7 +27,7 @@ class Iteration1D:
 
             self.pstar, self.info = bisection(self.f, self.a, self.b, self.tol, self.Nmax)
         elif self.method == 'fixedpt':
-            # add checks and newton routine
+            # add checks and fixed point routine
             if self.f is None or self.p0 is None or self.tol is None or self.Nmax is None:
                 print('error: some attributes for fixedpt are unset. returning ..')
                 return

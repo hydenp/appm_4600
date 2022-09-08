@@ -1,0 +1,17 @@
+Results
+
+Problem 1
+Part A: bisection root 0.9999995231628418
+Part B: bisection root -1.0
+Part C: bisection root 0.9999995231628418
+
+Bisection works for all the intervals
+
+Problem 2
+When f(x)=x^3/2 guess 1.2: fixed point root 1.00000142623739
+When f(x)=x^3/2 guess 0.1: fixed point root 0.9999984186744852
+When f(x)=x^2/3 guess 1.2: fixed point root inf
+When f(x)=x^2/3 guess 0.1: fixed point root 4.067944321083051e-12
+
+The method is able to find both roots when using f(x)=x^3/2, however, it fails for the nonzero root when f(x)=x^2/3.
+it may be possible to avoid this by adjusting Nmax or tolerance
