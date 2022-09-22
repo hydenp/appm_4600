@@ -41,7 +41,7 @@ if __name__ == '__main__':
     find.root()
 
     xstar = find.pstar
-    x = find.fixed_pt_approximations
+    x = find.vector_of_approximations
 
     hat_x = aitkens(x, xstar, 1e-10)
 
