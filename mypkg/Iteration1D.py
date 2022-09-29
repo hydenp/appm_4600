@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 
 
@@ -215,7 +217,7 @@ def newton(f, fp, p0, tol, Nmax):
             - 0 if we met tol
             - 1 if we hit Nmax iterations (fail)
     """
-    p = [0 for _ in range(Nmax+1)]
+    p = [0 for _ in range(Nmax + 1)]
     p[0] = p0
     for it in range(Nmax):
         p1 = p0 - f(p0) / fp(p0)
@@ -228,3 +230,42 @@ def newton(f, fp, p0, tol, Nmax):
     pstar = p1
     info = 1
     return [p, pstar, info, it]
+
+
+# def evaluate_f(x):
+#     f_at_x = np.zeros(3)
+#
+#     f_at_x[0] = 3 * x[0] - math.cos(x[1] * x[2]) - 1 / 2
+#     f_at_x[1] = x[0] - 81 * (x[1] + 0.1) ** 2 + math.sin(x[2]) + 1.06
+#     f_at_x[2] = np.exp(-x[0] * x[1]) + 20 * x[2] + (10 * math.pi - 3) / 3
+#     return f_at_x
+#
+#
+# def evaluate_j(x):
+#     return np.array([[3.0, x[2] * math.sin(x[1] * x[2]), x[1] * math.sin(x[1] * x[2])],
+#                      [2. * x[0], -162. * (x[1] + 0.1), math.cos(x[2])],
+#                      [-x[1] * np.exp(-x[0] * x[1]), -x[0] * np.exp(-x[0] * x[1]), 20]])
+#
+#
+# def lazy_newton(x0, tol, Nmax):
+#     ''' Lazy Newton = use only the inverse of the Jacobian for initial guess'''
+#     ''' inputs: x0 = initial guess, tol = tolerance, Nmax = max its'''
+#     ''' Outputs: xstar= approx root, ier = error message, its = num its'''
+#
+#     jacobian = evaluate_j(x0)
+#     inverse_jacobian = np.linalg.inv(jacobian)
+#     for its in range(Nmax):
+#
+#         f_at_x0 = evaluate_f(x0)
+#         x1 = x0 - inverse_jacobian.dot(f_at_x0)
+#
+#         if np.linalg.norm(x1 - x0) < tol:
+#             xstar = x1
+#             ier = 0
+#             return [xstar, ier, its]
+#
+#         x0 = x1
+#
+#     xstar = x1
+#     ier = 1
+#     return [xstar, ier, its]
