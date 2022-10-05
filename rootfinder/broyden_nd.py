@@ -2,14 +2,15 @@ from typing import Callable
 
 import numpy as np
 
-from rootfinder.newton_nd_helpers import evaluate_jacobian_inverse, evaluate_f
 
-
-def broyden_nd(functions: [[Callable]],
-               jacobian_functions: [[Callable]], x0: [int], tolerance: float, max_iterations: int):
+def broyden_nd(f_at: Callable,
+               jacobian_at: Callable,
+               x0: [int],
+               tolerance: float,
+               max_iterations: int) -> ([float], int, int):
     """
-    :param functions:
-    :param jacobian_functions:
+    :param f_at:
+    :param jacobian_at:
     :param x0:
     :param tolerance:
     :param max_iterations:
@@ -32,17 +33,13 @@ def broyden_nd(functions: [[Callable]],
     '''initialize with 1 newton step'''
 
     # jacobian = evalJ(x0)
-    jacobian = np.eye(len(jacobian_functions), len(jacobian_functions[0]))
-    for row_index, row in enumerate(jacobian_functions):
-        for col_index, function in enumerate(row):
-            jacobian[row_index][col_index] = function(x0)
+    jacobian = jacobian_at(x0)
 
     # f_at_xk = evalF(x0)
-    f_at_xk = evaluate_f(functions, x0)
-    f_at_xk = np.reshape(f_at_xk, (1, len(f_at_xk)))[0]
+    f_at_xk = f_at(x0)
 
     # inv_jacobian = np.linalg.inv(jacobian)
-    inv_jacobian = evaluate_jacobian_inverse(jacobian_functions, x0)
+    inv_jacobian = np.linalg.inv(jacobian)
 
     s = np.reshape(-inv_jacobian.dot(f_at_xk), (1, len(f_at_xk)))[0]
     xk = x0 + s
@@ -52,11 +49,10 @@ def broyden_nd(functions: [[Callable]],
 
         '''create new f_at_xk'''
         # f_at_xk = evaluate_f(functions, xk)
-        f_at_xk = evaluate_f(functions, np.reshape(xk, (1, len(xk)))[0])
-        f_at_xk = np.reshape(f_at_xk, (1, len(f_at_xk)))[0]
+        f_at_xk = f_at(xk)
 
         '''y_k = F(xk)-F(xk-1)'''
-        y = f_at_xk - w
+        y = np.array(f_at_xk) - np.array(w)
 
         '''-A_{k-1}^{-1}y_k'''
         z = -inv_jacobian.dot(y)

@@ -18,34 +18,36 @@ def run_helper(initial_guess):
     print("INITIAL GUESS: ", initial_guess)
 
     try:
-        root, err_code, iterations = lazy_newton_nd(F_FUNCS, JACOBIAN_FUNCS, initial_guess, TOLERANCE, MAX_ITERATIONS)
+        root, err_code, iterations = lazy_newton_nd(f, j, initial_guess, TOLERANCE, MAX_ITERATIONS)
         print_results('lazy newton', root, iterations, err_code)
     except Exception as e:
         print('lazy newton failed: ', e)
 
     try:
-        root, err_code, iterations = broyden_nd(F_FUNCS, JACOBIAN_FUNCS, initial_guess, TOLERANCE, MAX_ITERATIONS)
+        root, err_code, iterations = broyden_nd(f, j, initial_guess, TOLERANCE, MAX_ITERATIONS)
         print_results('broyden', root, iterations, err_code)
     except Exception as e:
         print('broyden failed: ', e)
 
     try:
-        root, err_code, iterations = newton_nd(F_FUNCS, JACOBIAN_FUNCS, initial_guess, TOLERANCE, MAX_ITERATIONS)
+        root, err_code, iterations = newton_nd(f, j, initial_guess, TOLERANCE, MAX_ITERATIONS)
         print_results('regular newton', root, iterations, err_code)
     except Exception as e:
         print('regular newton failed: ', e)
 
 
 if __name__ == '__main__':
-    F_FUNCS = [
-        [lambda x: x[0] ** 2 + x[1] ** 2 - 4],
-        [lambda x: np.exp(x[0]) + x[1] - 1]
+    def f(x): return [
+        x[0] ** 2 + x[1] ** 2 - 4,
+        np.exp(x[0]) + x[1] - 1
     ]
 
-    JACOBIAN_FUNCS = [
-        [lambda x: 2 * x[0], lambda x: 2 * x[1]],
-        [lambda x: np.exp(x[0]), lambda x: 1]
+
+    def j(x): return [
+        [2 * x[0], 2 * x[1]],
+        [np.exp(x[0]), 1]
     ]
+
 
     TOLERANCE = 1e-12
     MAX_ITERATIONS = 100

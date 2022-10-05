@@ -2,18 +2,16 @@ from typing import Callable
 
 import numpy as np
 
-from rootfinder.newton_nd_helpers import evaluate_jacobian_inverse, evaluate_f
-
 
 def lazy_newton_nd(
-        functions: [[Callable]],
-        jacobian_functions: [[Callable]],
-        x0: [[int]],
-        tolerance,
-        max_iterations) -> [[[]], int, int]:
+        f_at: Callable,
+        jacobian_at: Callable,
+        x0: [float],
+        tolerance: float,
+        max_iterations: int) -> ([float], int, int):
     """
-    :param functions: the function at each step
-    :param jacobian_functions: a 2d matrix of lambdas that take in one list which is the point at which to evaluate
+    :param f_at: the function at each step
+    :param jacobian_at: a 2d matrix of lambdas that take in one list which is the point at which to evaluate
     :param x0: initial guess
     :param tolerance
     :param max_iterations
@@ -23,18 +21,14 @@ def lazy_newton_nd(
     assumes each jacobian function takes in a single array argument for the point to evaluate at
     """
     x1 = None
-
-    inverse_jacobian = evaluate_jacobian_inverse(jacobian_functions, x0)
+    inverse_jacobian = np.linalg.inv(jacobian_at(x0))
 
     for iteration in range(max_iterations):
 
         # evaluate the next iteration with reshaped input
-        f_at_x0 = evaluate_f(functions, np.reshape(x0, (1, len(x0)))[0])
+        f_at_x0 = f_at(x0)
 
-        # reshape x0 to a column matrix for subtraction step
-        x0 = np.reshape(x0, (len(x0), 1))
-
-        x1 = np.subtract(x0, np.matmul(inverse_jacobian, f_at_x0))
+        x1 = np.array(x0) - inverse_jacobian @ f_at_x0
 
         # check the tolerance has been met
         if np.linalg.norm(x1 - x0) < tolerance:
