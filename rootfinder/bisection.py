@@ -22,18 +22,18 @@ def bisection(f: Callable, a: float, b: float, tolerance: float, max_iterations:
     if fa * fb > 0:
         # ier = 1
         # astar = a
-        return a, 1
+        return a, 1, 0
 
     """verify end point is not a root"""
     if fa == 0:
         # astar = a
         # ier = 0
-        return a, 0
+        return a, 0, 0
 
     if fb == 0:
         # astar = b
         # ier = 0
-        return b, 0
+        return b, 0, 0
 
     iteration = 0
     while iteration < max_iterations:
@@ -43,7 +43,7 @@ def bisection(f: Callable, a: float, b: float, tolerance: float, max_iterations:
         if fc == 0:
             # astar = c
             # ier = 0
-            return c, 0
+            return c, 0, iteration+1
 
         if fa * fc < 0:
             b = c
@@ -53,15 +53,15 @@ def bisection(f: Callable, a: float, b: float, tolerance: float, max_iterations:
         else:
             # astar = c
             # ier = 3
-            return c, 3
+            return c, 3, iteration+1
 
         if abs(b - a) < tolerance:
             # astar = a
             # ier = 0
-            return a, 0
+            return a, 0, iteration+1
 
         iteration += 1
 
     # astar = a
     # ier = 2
-    return a, 2
+    return a, 2, max_iterations

@@ -41,7 +41,7 @@ def newton_nd(
         if np.linalg.norm(x1 - x0) < tolerance:
             # x_star = x1
             # ier = 0
-            return x1, 0, iteration
+            return x1, 0, iteration+1
 
         x0 = x1
 

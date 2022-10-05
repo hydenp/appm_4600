@@ -20,17 +20,15 @@ def newton_1d(f: Callable, f_prime: Callable, p0: float, tolerance: float, max_i
     p1 = None
     p = [p0]
 
-    assert max_iterations > 0
-
     for iteration in range(max_iterations):
         p1 = p0 - f(p0) / f_prime(p0)
         p.append(p1)
         if abs(p1 - p0) < tolerance:
             # pstar = p1
             # ier = 0
-            return p, p1, 0, iteration
+            return p1, 0, iteration+1, p
         p0 = p1
 
     # pstar = p1
     # ier = 1
-    return p, p1, 1, max_iterations
+    return p1, 1, max_iterations, p

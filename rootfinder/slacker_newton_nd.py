@@ -5,7 +5,7 @@ import numpy as np
 from rootfinder.newton_nd_helpers import evaluate_jacobian_inverse, evaluate_f
 
 
-def quasi_newton_nd(
+def slacker_newton_nd(
         functions: [[Callable]],
         jacobian_functions: [[Callable]],
         x0: [[int]],
@@ -41,7 +41,7 @@ def quasi_newton_nd(
         if norm < tolerance:
             # x_star = x1
             # ier = 0
-            return x1, 0, iteration
+            return x1, 0, iteration+1
 
         x0 = x1
 

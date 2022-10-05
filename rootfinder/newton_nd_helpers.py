@@ -34,7 +34,6 @@ def evaluate_f(functions: [[Callable]], x: [int]) -> np.array:
 
     for row_index, row in enumerate(functions):
         for col_index, func in enumerate(row):
-            res = func(x)
-            f_at_x[row_index][col_index] = res
+            f_at_x[row_index][col_index] = func(x)
 
     return f_at_x
