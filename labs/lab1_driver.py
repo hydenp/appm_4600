@@ -1,4 +1,5 @@
 import numpy as np
+
 import mypkg
 
 if __name__ == '__main__':
