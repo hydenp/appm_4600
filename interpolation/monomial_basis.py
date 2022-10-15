@@ -4,21 +4,25 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-def create_vandermonde(num_interpolation_nodes):
-
-    x = np.linspace(-1, 1, num_interpolation_nodes + 1)
-    vandermonde = np.zeros((num_interpolation_nodes + 1, num_interpolation_nodes + 1))
+def create_vandermonde(num_interpolation_nodes, x_interpolation_pts):
+    x_interpolation_pts = np.array(x_interpolation_pts)
+    vandermonde = np.zeros((len(x_interpolation_pts), len(x_interpolation_pts)))
     for j in range(0, num_interpolation_nodes + 1):
-        vandermonde[:, j] = x ** j
+        vandermonde[:, j] = x_interpolation_pts * 2 ** j
 
-    return vandermonde, x
+    return vandermonde, x_interpolation_pts
 
 
 def monomial_basis(f: Callable, num_interpolation_nodes: int, num_sample_pts: int,
-                   plot_save_show: str = None, file_prefix: str = ''):
+                   plot_save_show: str = None, file_prefix: str = '', special_x: [] = None):
+    if special_x is None:
+        # create equal-spaced interpolation nodes
+        x_interpolation_pts = np.linspace(-1, 1, num_interpolation_nodes + 1)
+    else:
+        x_interpolation_pts = special_x
 
     # Vandermonde matrix and interpolation points
-    vandermonde, x = create_vandermonde(num_interpolation_nodes)
+    vandermonde, x = create_vandermonde(num_interpolation_nodes, x_interpolation_pts)
 
     # sample the function for interpolation nodes
     f_at_x = f(x)
@@ -37,7 +41,7 @@ def monomial_basis(f: Callable, num_interpolation_nodes: int, num_sample_pts: in
     error = np.abs(v_with_num_sample @ coefficients - f_with_num_sample)
 
     if plot_save_show is not None:
-        fig, ax = plt.subplots(1, 2)
+        _, ax = plt.subplots(1, 2)
         ax[0].plot(x_with_num_sample, f_with_num_sample, 'o-')
         ax[0].plot(x_with_num_sample, v_with_num_sample @ coefficients, 'b--')
         ax[0].set_title('interpolation and function')

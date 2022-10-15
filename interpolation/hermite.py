@@ -1,0 +1,2 @@
+def hermite():
+    raise NotImplemented

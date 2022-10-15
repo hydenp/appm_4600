@@ -58,17 +58,18 @@ def lagrange(f: Callable, num_interpolation_nodes: int, a: int, b: int, num_samp
     for kk in range(num_sample_pts + 1):
         f_at_x[kk] = f(x_evaluation_points[kk])
 
+    _, ax = plt.subplots(1, 2)
     # plot interpolation with exact
-    plt.plot(x_evaluation_points, f_at_x, 'o', label='exact')
-    plt.plot(x_evaluation_points, y_evaluation_points, 'rx', label='lagrange')
-    plt.legend(loc='upper right')
-    plt.savefig(f'{file_prefix}lagrange-int-n-{num_interpolation_nodes}')
-    plt.cla()
+    ax[0].plot(x_evaluation_points, f_at_x, label='exact')
+    ax[0].plot(x_evaluation_points, y_evaluation_points, 'rx', label='lagrange')
+    ax[0].set_title(f'Interpolation with N={num_interpolation_nodes}')
 
+    # plotting error
     err = abs(y_evaluation_points - f_at_x)
-    plt.title('Error')
-    plt.plot(x_evaluation_points, err)
-    plt.savefig(f'{file_prefix}lagrange-error-n-{num_interpolation_nodes}')
+    ax[1].set_title('Error')
+    ax[1].semilogy(x_evaluation_points, err)
+
+    plt.savefig(f'{file_prefix}lagrange-n-{num_interpolation_nodes}')
     plt.cla()
 
     return err

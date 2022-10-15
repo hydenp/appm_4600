@@ -61,19 +61,16 @@ def barycentric(f: Callable, num_interpolation_nodes: int, a: int, b: int, num_s
     for i in range(num_sample_points + 1):
         f_exact[i] = f(x_interpolation_pts_eval[i])
 
+    _, ax = plt.subplots(1, 2)
     # plotting exact and interpolation
-    plt.plot(x_interpolation_pts_eval, f_exact, label='Exact')
-    plt.plot(x_interpolation_pts_eval, y_interpolation_pts_eval, 'rx', label='barycentric')
-    plt.legend(loc='upper right')
-    plt.title(f'Exact and Interpolated Plot with N={num_interpolation_nodes}')
-    plt.savefig(f'{file_prefix}barycentric-int-n-{num_interpolation_nodes}.png')
-    plt.cla()
+    ax[0].plot(x_interpolation_pts_eval, f_exact, label='Exact')
+    ax[0].plot(x_interpolation_pts_eval, y_interpolation_pts_eval, 'rx', label='barycentric')
+    ax[0].set_title(f'Exact and Interpolated Plot with N={num_interpolation_nodes}')
 
     # plotting error
     errors = abs(y_interpolation_pts_eval - f_exact)
-    plt.loglog(x_interpolation_pts_eval, errors)
-    plt.title('Error')
-    plt.savefig(f'{file_prefix}barycentric-error-n-{num_interpolation_nodes}.png')
-    plt.cla()
+    ax[1].semilogy(x_interpolation_pts_eval, errors)
+    ax[1].set_title('Error')
 
+    plt.savefig(f'{file_prefix}barycentric-n-{num_interpolation_nodes}.png')
     return y_interpolation_pts_eval, errors

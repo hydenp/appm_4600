@@ -1,10 +1,10 @@
 import math
 
-from interpolation import barycentric, lagrange
+from interpolation import monomial_basis
 
 if __name__ == '__main__':
     # set configuration
-    NUM_INTERPOLATION_NODES = 200
+    NUM_INTERPOLATION_NODES = 300
     NUM_SAMPLE_POINTS = 2_000
     A = -1
     B = 1
@@ -21,5 +21,7 @@ if __name__ == '__main__':
         return 1 / (1 + (10 * x) ** 2)
 
 
-    lagrange(f, NUM_INTERPOLATION_NODES, A, B, NUM_SAMPLE_POINTS, special_x=chebychev_pts, file_prefix='prblm3-')
-    barycentric(f, NUM_INTERPOLATION_NODES, A, B, NUM_SAMPLE_POINTS, special_x=chebychev_pts, file_prefix='prblm3-')
+    # lagrange(f, NUM_INTERPOLATION_NODES, A, B, NUM_SAMPLE_POINTS, special_x=chebychev_pts, file_prefix='prblm3-')
+    # barycentric(f, NUM_INTERPOLATION_NODES, A, B, NUM_SAMPLE_POINTS, special_x=chebychev_pts, file_prefix='prblm3-')
+    monomial_basis(f, NUM_INTERPOLATION_NODES, NUM_SAMPLE_POINTS, plot_save_show='save', special_x=chebychev_pts,
+                   file_prefix='prblm3-')
