@@ -8,3 +8,4 @@ from interpolation.monomial_basis import monomial_basis
 from interpolation.monomial_basis import monomial_basis, create_vandermonde
 from interpolation.natural_spline import natural_spline
 from interpolation.newton_dd import newton_dd
+from interpolation.plot import plot_int

@@ -13,6 +13,7 @@ def create_vandermonde(num_interpolation_nodes, x_interpolation_pts):
     return vandermonde, x_interpolation_pts
 
 
+# TODO: update to have inputs as f, x_int_pts, x_eval_pts as only params
 def monomial_basis(f: Callable, num_interpolation_nodes: int, num_sample_pts: int,
                    plot_save_show: str = None, file_prefix: str = '', special_x: [] = None):
     if special_x is None:

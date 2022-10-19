@@ -1,10 +1,9 @@
 from typing import Callable
 
 import numpy as np
-from matplotlib import pyplot as plt
 
 
-def hermite(f: Callable, fp: Callable, x_int_pts: [float], x_eval_pts: [float], file_prefix: str = ''):
+def hermite(f: Callable, fp: Callable, x_int_pts: [float], x_eval_pts: [float]) -> np.array:
     y_int_nodes = [f(x) for x in x_int_pts]
     yp_int_nodes = [fp(x) for x in x_int_pts]
 
@@ -28,29 +27,12 @@ def hermite(f: Callable, fp: Callable, x_int_pts: [float], x_eval_pts: [float], 
 
     y_hermite_nodes = []
     for x in x_eval_pts:
-        f_q = sum(
-            y_int_nodes[j] * Q(x, j) for j in range(len(x_int_pts))
+        y_hermite_nodes.append(
+            sum(
+                y_int_nodes[j] * Q(x, j) for j in range(len(x_int_pts))
+            ) + sum(
+                yp_int_nodes[j] * R(x, j) for j in range(len(x_int_pts))
+            )
         )
-        fp_r = sum(
-            yp_int_nodes[j] * R(x, j) for j in range(len(x_int_pts))
-        )
-        y_hermite_nodes.append(f_q + fp_r)
 
-    # create vector with exact values
-    f_exact = np.ones(len(x_eval_pts))
-    for index, x in enumerate(x_eval_pts):
-        f_exact[index] = f(x)
-
-    _, ax = plt.subplots(1, 2)
-    # plotting exact and interpolation
-    ax[0].plot(x_eval_pts, f_exact, label='Exact')
-    ax[0].plot(x_eval_pts, y_hermite_nodes, 'r-', label='hermite')
-    ax[0].set_title(f'Exact and Interpolated Plot with N={len(x_int_pts)}')
-
-    # plotting error
-    errors = abs(y_hermite_nodes - np.array(f_exact))
-    ax[1].semilogy(x_eval_pts, errors)
-    ax[1].set_title('Error')
-    plt.savefig(f'{file_prefix}hermite-n-{len(x_int_pts)}.png')
-
-    return y_hermite_nodes, errors
+    return np.array(y_hermite_nodes)

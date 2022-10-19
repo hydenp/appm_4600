@@ -1,6 +1,6 @@
 import numpy as np
 
-from interpolation import hermite
+from interpolation import hermite, lagrange, plot_int
 
 if __name__ == '__main__':
     # function to interpolate
@@ -10,26 +10,20 @@ if __name__ == '__main__':
     def fp(x):
         return -2*x / (1 + x ** 2) ** 2
 
-    N = 5
-    x_int_nodes = np.linspace(-5, 5, N)
     x_eval_pts = np.linspace(-5, 5, 50)
+    f_exact = [f(x) for x in x_eval_pts]
 
-    # how many points we want to evaluate at after creating our interpolation
-    NUM_SAMPLE_POINTS = 10
     # number of intervals for the spline evaluations
     NUM_INTERVALS = 20
 
-    N = 5
-    # lagrange(f, NUM_INTERPOLATION_NODES, -5, 5, NUM_SAMPLE_POINTS, file_prefix=f'prblm1-n-{NUM_INTERPOLATION_NODES}_')
+    Ns = [5, 10, 15, 20]
 
-    hermite(f, fp, x_int_nodes, x_eval_pts)
+    for N in Ns:
 
+        x_int_nodes = np.linspace(-5, 5, N)
 
-    # NUM_INTERPOLATION_NODES = 10
-    # lagrange(f, NUM_INTERPOLATION_NODES, -5, 5, NUM_SAMPLE_POINTS, file_prefix=f'prblm1-n-{NUM_INTERPOLATION_NODES}_')
-    #
-    # NUM_INTERPOLATION_NODES = 15
-    # lagrange(f, NUM_INTERPOLATION_NODES, -5, 5, NUM_SAMPLE_POINTS, file_prefix=f'prblm1-n-{NUM_INTERPOLATION_NODES}_')
-    #
-    # NUM_INTERPOLATION_NODES = 20
-    # lagrange(f, NUM_INTERPOLATION_NODES, -5, 5, NUM_SAMPLE_POINTS, file_prefix=f'prblm1-n-{NUM_INTERPOLATION_NODES}_')
+        lagrange_eval_pts = lagrange(f, x_int_nodes, x_eval_pts)
+        plot_int(x_eval_pts, f_exact, lagrange_eval_pts, N, save=True, file_prefix='lagrange')
+
+        hermite_eval_pts = hermite(f, fp, x_int_nodes, x_eval_pts)
+        plot_int(x_eval_pts, f_exact, hermite_eval_pts, N, save=True, file_prefix='hermite')

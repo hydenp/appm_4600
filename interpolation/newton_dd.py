@@ -30,6 +30,7 @@ def divided_difference_table(x, y, n):
     return y
 
 
+# TODO: update to have inputs as f, x_int_pts, x_eval_pts as only params
 def newton_dd(f: Callable, polynomial_degree: int, a: float, b: float, num_sample: int, plot_save_show: str = None):
     """
     :param f:

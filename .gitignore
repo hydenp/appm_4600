@@ -1,1 +1,5 @@
+# don't save cached run files locally
 __pycache__
+
+# don't save homework graphs
+homework/*/*.png

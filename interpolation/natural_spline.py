@@ -14,6 +14,7 @@ def line_through(x_0: float, x_1: float, f_0: float, f_1: float) -> [(float, flo
     return lambda x: (f_1 - f_0) / (x_1 - x_0) * (x - x_0) + f_0
 
 
+# TODO: update to have inputs as f, x_int_pts, x_eval_pts as only params
 def natural_spline(f: Callable, num_intervals: int, a: float, b: float,
                    num_evaluation_pts: int, file_prefix: str = ''):
     # create the intervals for piecewise approximations
