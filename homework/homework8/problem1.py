@@ -27,3 +27,7 @@ if __name__ == '__main__':
 
         hermite_eval_pts = hermite(f, fp, x_int_nodes, x_eval_pts)
         plot_int(x_eval_pts, f_exact, hermite_eval_pts, N, save=True, file_prefix='hermite')
+
+        # cubic_spline_eval_pts = cubic_spline(f, x_int_nodes, x_eval_pts, NUM_INTERVALS)
+        #
+        # clamped_spline_eval_pts = clamped_spline(f=f, x_int_nodes=x_int_nodes, x_eval_pts=x_eval_pts)
