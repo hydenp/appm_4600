@@ -1,0 +1,2 @@
+from quadrature.composite_simpson import composite_simpson
+from quadrature.trapezoidal import trapezoidal
