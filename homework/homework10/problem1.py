@@ -25,10 +25,8 @@ if __name__ == '__main__':
     # trapezoidal = 2.7462081624602193
     # simpson = 2.7429080175186034
 
-    print()
-
     # part C
-    EPSILON = 10e-8
+    EPSILON = 10e-6
 
     prev_result = float('inf')
     for i in range(5, 1_000):
@@ -38,18 +36,23 @@ if __name__ == '__main__':
             break
         prev_result = trap_result
 
+    prev_result = float('inf')
     for i in range(5, 1_000):
-        simp_result = trapezoidal(f, A, B, i)
+        simp_result = composite_simpson(f, A, B, i)
 
+        print(abs(prev_result - simp_result))
         if abs(prev_result - simp_result) < EPSILON:
             print(f'Simpson requires {i} intervals - for e = {EPSILON}')
             break
-        prev_result = trap_result
+        prev_result = simp_result
+
+    print()
 
     result, _, info_dict = quad(f, A, B, full_output=1)
     print('neval for scipy quad with default tolerance:', info_dict['neval'])
     print('difference to trapezoid result =', abs(result - trap_result))
     print('difference to simpson result =', abs(result - simp_result))
+
     result, _, info_dict = quad(f, A, B, epsabs=EPSILON, full_output=1)
     print('neval for scipy quad with error of 10e-4:', info_dict['neval'])
     print('difference to trapezoid result =', abs(result - trap_result))
