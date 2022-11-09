@@ -37,10 +37,9 @@ if __name__ == '__main__':
         prev_result = trap_result
 
     prev_result = float('inf')
-    for i in range(5, 1_000):
+    for i in range(5, 20_000):
         simp_result = composite_simpson(f, A, B, i)
 
-        print(abs(prev_result - simp_result))
         if abs(prev_result - simp_result) < EPSILON:
             print(f'Simpson requires {i} intervals - for e = {EPSILON}')
             break
